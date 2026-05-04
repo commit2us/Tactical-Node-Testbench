@@ -1,4 +1,4 @@
-#include "link.h"
+#include "Link.h"
 
 Link::Link(Base* from, Base* to) : 
 bases{from, to}, distance(0.0){
