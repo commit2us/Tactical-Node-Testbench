@@ -2,14 +2,10 @@
 #define LINK_H
 
 #include <cmath>
-// #include "base.h" // Node file containing Base class 
+#include "Base.h"
 
 using namespace std;
 
-// Placeholders for Base entities
-
-struct Location{int x; int y;};
-struct Base{ Location location; };
 
 class Link {
     Base* bases[2];

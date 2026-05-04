@@ -4,11 +4,8 @@
 #include <string>
 #include <vector>
 
-// #include "RiskMatrix.h"
-struct RiskMatrix {};
-// #include "Base.h"
-struct Base {};
-
+#include "RiskMatrix.cpp"
+#include "Base.h"
 
 using namespace std;
 
