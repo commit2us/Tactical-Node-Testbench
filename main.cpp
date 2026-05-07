@@ -2,7 +2,6 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <cctype>
 
 #include "Scenery.h"
 

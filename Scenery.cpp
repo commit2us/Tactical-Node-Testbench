@@ -12,5 +12,7 @@ Scenery::~Scenery() {
 }
 
 void Scenery::determineRisk() {
-    // Determine risk for each base with riskMatriz as reference
+    for(auto &b : bases) {
+        b->setRisk(riskMatrix.getRiskAt(b->getLocation().x, b->getLocation().y));
+    }
 }
