@@ -2,7 +2,7 @@
 
 Link::Link(Base* from, Base* to) : 
 bases{from, to}, distance(0.0){
-    distance = distanceFromCoordinates(from->location, to->location);
+    distance = distanceFromCoordinates(from->getLocation(), to->getLocation());
 }
     
 Link::~Link() {

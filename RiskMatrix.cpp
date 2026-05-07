@@ -21,7 +21,7 @@ class RiskMatrix
             int sectorY =  y /100;
             if(sectorX > 9)sectorX = x;
             if (sectorY > 9) sectorY = y;
-
+            return dangerZone[sectorX][sectorY];
         }
         
 };
