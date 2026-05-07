@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "RiskMatrix.cpp"
+#include "RiskMatrix.h"
 #include "Base.h"
 
 using namespace std;
