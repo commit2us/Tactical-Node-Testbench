@@ -4,42 +4,44 @@
 #include <string>
 #include <iostream>
 
-using namespace std;
-
 // Estructura para la ubicación
 struct Location {
     int x;
     int y;
+
+    Location(int x, int y) : x(x), y(y) {}
 };
 
 class Base {
 private:
     // Atributos
-    string id;
+    std::string id;
     Location location;
-    string frequency;
+    std::string frequency;
     float risk;
-    string bandWidth;
+    std::string bandWidth;
 
 public:
     // Constructores y Destructor
     Base();
-    Base(string i, int lx, int ly, string freq, float r, string bW);
+    Base(std::string i, int lx, int ly, std::string freq, float r, std::string bW);
     ~Base();
 
     // Setters
-    void setId(string i);
+    void setId(std::string i);
     void setLocation(int lx, int ly);
-    void setFrequency(string freq);
+    void setFrequency(std::string freq);
     void setRisk(float r);
-    void setBandWidth(string bW);
+    void setBandWidth(std::string bW);
 
     // Getters
-    string getId();
+    std::string getId();
     Location getLocation();
-    string getFrequency();
+    std::string getFrequency();
     float getRisk();
-    string getBandWidth();
+    std::string getBandWidth();
+
+    bool checkBaseLocatio(Location matrixLimits);
 };
 
 #endif

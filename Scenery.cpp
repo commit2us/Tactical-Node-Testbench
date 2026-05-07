@@ -1,8 +1,29 @@
 #include "Scenery.h"
+#include <optional>
 
 Scenery::Scenery(string description, RiskMatrix riskMatrix, vector<Base*> bases) :
-description(description), riskMatrix(riskMatrix), bases(bases) {
-    determineRisk();
+description(description), riskMatrix(riskMatrix), matrixLimits(riskMatrix.getMatrixLimits()), bases(bases) {}
+
+optional<Scenery*> Scenery::buildScenery(const string& description, const RiskMatrix& riskMatrix, const vector<Base*>& bases) {
+    // Check all attributes BEFORE creating the object
+    Location lim = riskMatrix.getMatrixLimits();
+
+    if (
+        description.empty() or
+        lim.x < 1 or
+        lim.y < 1 or
+        bases.empty()
+    ) return nullopt;
+
+    // Create a preliminary new Scenery object
+    Scenery* scenery = new Scenery(description, riskMatrix, bases);
+
+    // Run bases validation
+    if(scenery->determineRisk()) return scenery;
+    else {
+        delete scenery;
+        return nullopt;
+    }
 }
 
 Scenery::~Scenery() {
@@ -11,8 +32,11 @@ Scenery::~Scenery() {
     }
 }
 
-void Scenery::determineRisk() {
+bool Scenery::determineRisk() {
     for(auto &b : bases) {
-        b->setRisk(riskMatrix.getRiskAt(b->getLocation().x, b->getLocation().y));
+        Location loc = b->getLocation();
+        if (matrixLimits.x < loc.x || matrixLimits.y < loc.y) return false;
+        b->setRisk(riskMatrix.getRiskAt(loc.x, loc.y));
     }
+    return true;
 }
