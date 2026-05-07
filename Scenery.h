@@ -8,19 +8,19 @@
 #include "RiskMatrix.h"
 #include "Base.h"
 
-using namespace std;
-
 class Scenery{
-    string description;
+    std::string description;
     RiskMatrix riskMatrix;
     Location matrixLimits;
-    vector<Base*> bases;
+    std::vector<Base*> bases;
 
-    Scenery(string description, RiskMatrix riskMatrix, vector<Base*> bases);
+    Scenery(std::string description, RiskMatrix riskMatrix, std::vector<Base*> bases);
 
 public:
-    optional<Scenery*> buildScenery(const string& description, const RiskMatrix& riskMatrix, const vector<Base*>& bases);
+    std::optional<Scenery*> buildScenery(const std::string& description, const RiskMatrix& riskMatrix, const std::vector<Base*>& bases);
     ~Scenery();
+
+    std::vector<Base*> run();
 
 private:
     bool determineRisk();

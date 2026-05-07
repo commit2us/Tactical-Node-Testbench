@@ -1,5 +1,8 @@
 #include "Scenery.h"
 #include <optional>
+#include <vector>
+
+using namespace std;
 
 Scenery::Scenery(string description, RiskMatrix riskMatrix, vector<Base*> bases) :
 description(description), riskMatrix(riskMatrix), matrixLimits(riskMatrix.getMatrixLimits()), bases(bases) {}
@@ -39,4 +42,8 @@ bool Scenery::determineRisk() {
         b->setRisk(riskMatrix.getRiskAt(loc.x, loc.y));
     }
     return true;
+}
+
+vector<Base*> run() {
+    
 }
