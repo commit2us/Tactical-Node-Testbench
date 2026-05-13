@@ -1,6 +1,7 @@
 #ifndef SCENERY_H
 #define SCENERY_H
 
+#include <list>
 #include <string>
 #include <vector>
 
@@ -12,12 +13,14 @@ using namespace std;
 class Scenery{
     string description;
     RiskMatrix riskMatrix;
-    vector<Base*> bases;
+    list<Base*> bases;
 
 public:
-    Scenery(string description, RiskMatrix riskMatrix, vector<Base*> bases);
+    Scenery(string description, RiskMatrix riskMatrix, list<Base*> bases);
 
     ~Scenery();
+
+    string getDescription();
 
 private:
     void determineRisk();

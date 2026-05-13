@@ -16,30 +16,28 @@ class Base {
 private:
     // Atributos
     string id;
-    Location location;
-    string frequency;
+    string name;
+    Location location; // Dos atributos
     float risk;
-    string bandWidth;
+
 
 public:
     // Constructores y Destructor
     Base();
-    Base(string i, int lx, int ly, string freq, float r, string bW);
+    Base(string i, int lx, int ly, string name, float r);
     ~Base();
 
     // Setters
     void setId(string i);
     void setLocation(int lx, int ly);
-    void setFrequency(string freq);
+    void setName(string name);
     void setRisk(float r);
-    void setBandWidth(string bW);
 
     // Getters
     string getId();
     Location getLocation();
-    string getFrequency();
+    string getName();
     float getRisk();
-    string getBandWidth();
 };
 
 #endif

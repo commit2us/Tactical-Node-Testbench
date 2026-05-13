@@ -2,9 +2,9 @@
 #define RISK_MATRIX_H
 
 class RiskMatrix {
+public:
     float dangerZone[10][10];
 
-public:
     RiskMatrix();
 
     float getRiskAt(int x, int y);
