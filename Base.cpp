@@ -33,7 +33,7 @@ void Base::setLocation(int lx, int ly) {
 }
 
 void Base::setName(string name) {
-    name = name;
+    this->name = name;
 }
 
 void Base::setRisk(float r) {

@@ -43,9 +43,9 @@ int menu(string section) {
     for (i = 0; i < option.size(); ++i) {
         cout << i+1 << " - " << option[i] << endl;
     }
-    cout << i+1 << "Salir" << endl;
+    cout << i+1 << " - Salir" << endl;
 
-    cout << "Seleccione una opcion: " << endl;
+    cout << "Seleccione una opcion: ";
     cin >> selectedOption;
 
     if (selectedOption > 0 and selectedOption <= option.size() + 1) {
@@ -82,13 +82,18 @@ void basesDefineMenuExecuter(int option) {
             cin >> numInput;
             fresh->setRisk(numInput);
 
+            bases.push_back(fresh);
+
             // Missing safe checking the inputs
             return;
         }
         case 1: {
             string id;
+            for(auto b : bases) {
+                cout << b->getId() << " : " << b->getName() << endl;
+            }
 
-            cout << "ID de la base a borrar: ";
+            cout << "\nID de la base a borrar: ";
             cin >> id;
 
             auto it = std::find_if(bases.begin(), bases.end(), [&](Base* b) {
@@ -194,11 +199,11 @@ void sceneryDefineMenuExecuter(int option) {
 }
 
 void sceneryRunMenuExecuter(int option) {
-    switch (option) {
-        case 0:
+    // switch (option) {
+    //     case 0:
 
-        case 1:
-    }
+    //     case 1:
+    // }
 }
 
 void mainMenuExecuter(int option) {
