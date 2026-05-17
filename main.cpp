@@ -17,6 +17,17 @@ static std::list<Link*> links;
 
 using namespace std;
 
+void displayBases() {
+    if (bases.empty()) {
+        cout << "No hay bases registradas." << endl;
+        return;
+    }
+
+    for (auto b : bases) {
+        cout << b->getId() << " : " << b->getRisk() << endl;
+    }
+}
+
 int menu(string section) {
     int selectedOption = -1;
 
@@ -241,7 +252,30 @@ void sceneryRunMenuExecuter() {
     cout << "Seleccione el escenario: ";
     cin >> i;
 
-    // scenarios[i]->run();
+    if (i < 1 || i > scenarios.size()) {
+        cout << "El escenario no existe" << endl;
+        return;
+    }
+
+    displayBases();
+
+    string from, to;
+    cout << "ID de la base de origen: ";
+    cin >> from;
+    cout << "ID de la base destino: ";
+    cin >> to;
+
+    auto itFrom = find_if(bases.begin(), bases.end(), [&](Base* b) {
+            return b->getId() == from;
+        });
+    auto itTo = find_if(bases.begin(), bases.end(), [&](Base* b) {
+            return b->getId() == to;
+        });
+
+    if (itFrom != bases.end() && itTo != bases.end()) {
+        scenarios[i]->run(*itFrom, *itTo);
+    }
+    
 }
 
 void mainMenuExecuter(int option) {
