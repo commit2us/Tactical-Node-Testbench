@@ -1,5 +1,6 @@
 using namespace std;
 #include "Base.h"
+#include "Base.h"
 #include <string>
 
 Base :: Base ()
@@ -19,8 +20,6 @@ Base :: Base (string i,int lx, int ly, string name, float r )
     name = name;
     if (r > 0) risk = r; else risk = 1.0f;
 }
-
-Base::~Base(){};
 
   //setters 
 void Base::setId(string i) {

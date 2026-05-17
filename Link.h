@@ -6,18 +6,25 @@
 
 using namespace std;
 
+// Generic structure that abstracts data for algorithm graph
+struct Edge {
+    Base* target;
+    float cost;
+};
 
-class Link {
-    Base* bases[2];
+// Enum to select mode
+enum Mode {
+    Safest,
+    Shortest,
+    Optimal
+};
+
+struct Link {
+    Base* nodes[2];
     float distance;
 
-public:
     Link(Base* from, Base* to);
-    ~Link();
-
-private:
     float distanceFromCoordinates(Location from, Location to);
-    
 };
 
 #endif
