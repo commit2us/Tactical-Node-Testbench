@@ -27,9 +27,9 @@ public:
 
     string getDescription();
     void   displayBoard();
-    static Scenery* createTutorialLevel();
-    static Scenery* createMinefieldLevel();
-    static Scenery* createBlockadeLevel();
+    static Scenery* createTutorialLevel(const list<Base*>& bases, const list<Link*>& links);
+    static Scenery* createMinefieldLevel(const list<Base*>& bases, const list<Link*>& links);
+    static Scenery* createBlockadeLevel(const list<Base*>& bases, const list<Link*>& links);
     void run(Base* from, Base* to);
 
 private:

@@ -21,10 +21,8 @@ public:
 
     std::vector<std::vector<Edge>> buildGraph(
         std::vector<Base*>& bases,
-        std::vector<Link*>& links,
-        Mode mode
+        std::vector<Link*>& links
     );
-    
    
     Base* baseExists(int baseId) const;
 
@@ -32,7 +30,7 @@ public:
 
     int getOrderByBaseId(std::string id);
 
-    std::vector<Base*> findRoute(Base* from, Base* to);
+    std::vector<Base*> findRoute(Base* from, Base* to, float& costoTotal);
 };
 
 #endif

@@ -12,13 +12,6 @@ struct Edge {
     float cost;
 };
 
-// Enum to select mode
-enum Mode {
-    Safest,
-    Shortest,
-    Optimal
-};
-
 struct Link {
     Base* nodes[2];
     float distance;

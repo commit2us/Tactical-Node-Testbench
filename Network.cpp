@@ -37,13 +37,12 @@ Network::Network(vector<Base*>& bases, vector<Link*>& edges) {
         baseIdToOrder.emplace(this->bases[i]->getId(), i);
     }
 
-    this->graph = buildGraph(bases, links, Optimal);
+    this->graph = buildGraph(bases, links);
 }
 
 vector<vector<Edge>> Network::buildGraph(
     vector<Base*>& bases,
-    vector<Link*>& links,
-    Mode mode
+    vector<Link*>& links
 ) {
     // Construir la lista de adyacencia usando las bases y conexiones almacenadas
     vector<vector<Edge>> newGraph;
@@ -54,37 +53,20 @@ vector<vector<Edge>> Network::buildGraph(
     for (size_t i = 0; i < this->links.size(); i++) {
         Link* l = this->links[i];
 
-        // Encontrar los índices de ambos extremos usando baseIdToOrder
+        // nodes[0] es el origen, nodes[1] es el destino
         auto itA = baseIdToOrder.find(l->nodes[0]->getId());
         auto itB = baseIdToOrder.find(l->nodes[1]->getId());
+        
         if (itA == baseIdToOrder.end() || itB == baseIdToOrder.end()) continue;
 
-        int idxA = itA->second;
-        int idxB = itB->second;
+        int idxA = itA->second; // Índice del origen
+        int idxB = itB->second; // Índice del destino
 
-        float costAB = 0.0f;
-        float costBA = 0.0f;
+        // Calculamos el costo únicamente para la dirección A -> B
+        float costAB = (l->distance * 0.5f) + (l->nodes[1]->getRisk() * 0.5f);
 
-        switch (mode) {
-            case Mode::Optimal:
-                costAB = (l->distance * 0.5f) + (l->nodes[1]->getRisk() * 0.5f);
-                costBA = (l->distance * 0.5f) + (l->nodes[0]->getRisk() * 0.5f);
-                break;
-            case Mode::Safest:
-                costAB = l->distance + l->nodes[1]->getRisk();
-                costBA = l->distance + l->nodes[0]->getRisk();
-                break;
-            case Mode::Shortest:
-                costAB = l->distance;
-                costBA = l->distance;
-                break;
-        }
-
-    
-newGraph[idxA].push_back(Edge{ idxB, costAB });
-newGraph[idxB].push_back(Edge{ idxA, costBA });
-        
-        
+        // Insertamos SOLAMENTE la arista que sale de A y llega a B
+        newGraph[idxA].push_back(Edge{ idxB, costAB });
     }
 
     this->graph = newGraph; 
@@ -107,10 +89,10 @@ int Network::getOrderByBaseId(string baseId) {
 }
 
 
-vector<Base*> Network::findRoute(Base* from, Base* to)  {
+vector<Base*> Network::findRoute(Base* from, Base* to, float& costoTotal)  {
     vector<Base*> route;
+    costoTotal = 0.0f;
 
-    
     if (!from || !to) return route;
     
     auto itStart = baseIdToOrder.find(from->getId());
@@ -136,13 +118,11 @@ vector<Base*> Network::findRoute(Base* from, Base* to)  {
 
     priority_queue<AStarNode, vector<AStarNode>, greater<AStarNode>> openSet;
 
-    
     gScore[startIdx] = 0.0f;
     float hStart = calculateHeuristic(from->getLocation(), to->getLocation());
     openSet.push(AStarNode{ startIdx, hStart });
 
     bool found = false;
-
     
     while (!openSet.empty()) {
         AStarNode current = openSet.top();
@@ -181,15 +161,15 @@ vector<Base*> Network::findRoute(Base* from, Base* to)  {
         }
     }
 
-    
     if (found) {
+        costoTotal = gScore[goalIdx]; 
+
         int curr = goalIdx;
         while (curr != startIdx) {
             route.push_back(bases[curr]); 
             curr = parent[curr];
         }
         route.push_back(bases[startIdx]);
-        
         
         reverse(route.begin(), route.end());
     }
