@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include <vector>
+#include "Network.h"
 #include "RiskMatrix.h"
 #include "Base.h"
 #include "Link.h"
@@ -15,13 +16,12 @@ class Scenery{
     RiskMatrix riskMatrix;
     list<Base*> bases;
     list<Link*> links;
-
-
+    Network* graph = nullptr;
 
 public:
 
     // Accept bases as a non-owning reference (Scenery won't delete bases)
-    Scenery(string description, RiskMatrix riskMatrix, const list<Base*>& bases);
+    Scenery(string description, RiskMatrix riskMatrix, const list<Base*>& bases, const list<Link*>& links);
 
     ~Scenery();
 
@@ -30,7 +30,7 @@ public:
     static Scenery* createTutorialLevel();
     static Scenery* createMinefieldLevel();
     static Scenery* createBlockadeLevel();
-
+    void run(Base* from, Base* to);
 
 private:
     void determineRisk();

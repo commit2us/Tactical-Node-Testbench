@@ -199,7 +199,7 @@ void sceneryDefineMenuExecuter(int option) {
 
             RiskMatrix mat = defineRiskMatrix();
 
-            scenarios.push_back(new Scenery(description, mat, bases));
+            scenarios.push_back(new Scenery(description, mat, bases, links));
             
             return;
         }

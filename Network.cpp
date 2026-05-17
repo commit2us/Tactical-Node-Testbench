@@ -36,6 +36,8 @@ Network::Network(vector<Base*>& bases, vector<Link*>& edges) {
     for (int i = 0; i < this->bases.size(); i++) {
         baseIdToOrder.emplace(this->bases[i]->getId(), i);
     }
+
+    this->graph = buildGraph(bases, links, Optimal);
 }
 
 vector<vector<Edge>> Network::buildGraph(

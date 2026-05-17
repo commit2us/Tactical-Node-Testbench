@@ -36,7 +36,7 @@ public:
     inline Base* getOrderByBaseId(string id) const;
 
     // Return the optimal path to communicate two bases
-    inline std::vector<Base*> findRoute(Base* from, Base* to) const;
+    std::vector<Base*> findRoute(Base* from, Base* to) const;
 };
 
 #endif
