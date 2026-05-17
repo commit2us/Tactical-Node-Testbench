@@ -6,12 +6,14 @@
 #include <vector>
 
 #include "Base.h"
+#include "Link.h"
 #include "RiskMatrix.h"
 #include "Scenery.h"
 
 // Variables to store environment status
 static std::vector<Scenery*> scenarios;
 static std::list<Base*> bases;
+static std::list<Link*> links;
 
 using namespace std;
 
@@ -23,7 +25,7 @@ int menu(string section) {
             {"Definir bases", "Definir escenario", "Correr escenario"},
         },
         {"Bases Define",
-            {"Nueva base", "Eliminar base"}
+            {"Nueva base", "Nueva conexion", "Eliminar base"}
         },
         {"Scenery Define",
             {"Nuevo escenario", "Eliminar escenario"}
@@ -38,7 +40,7 @@ int menu(string section) {
 
     vector<string> option = sections[section];
 
-    cout << "\n\n\n" << section <<  " menu: " << endl;
+    cout << "\n\n" << section <<  " menu: " << endl;
     int i;
     for (i = 0; i < option.size(); ++i) {
         cout << i+1 << " - " << option[i] << endl;
@@ -89,6 +91,32 @@ void basesDefineMenuExecuter(int option) {
             return;
         }
         case 1: {
+            string from, to;
+            cout << "Bases disponibles" << endl;
+            for(auto b : bases) {
+                cout << b->getId() << " : " << b->getName() << endl;
+            }
+            cout << "ID de la base origen: " << endl;
+            cin >> from;
+            cout << "ID de la base destino: " << endl;
+            cin >> to;
+            
+            auto itFrom = find_if(bases.begin(), bases.end(), [&](Base* b) {
+                    return b->getId() == from;
+                });
+            auto itTo = find_if(bases.begin(), bases.end(), [&](Base* b) {
+                    return b->getId() == to;
+                });
+
+            if (itFrom != bases.end() && itTo != bases.end()) {
+                links.push_back(new Link(*itFrom, *itTo));
+                return;
+            }
+
+            cout << "Alguna de las bases no existe. No se creo la conexion." << endl;
+            
+        }
+        case 2: {
             string id;
             for(auto b : bases) {
                 cout << b->getId() << " : " << b->getName() << endl;
@@ -112,7 +140,6 @@ void basesDefineMenuExecuter(int option) {
                 basesDefineMenuExecuter(option);
                 return;
             }
-            break;
         }
         default:
             cout << "Menu principal fallo. Intente de nuevo.\n\n\n" << endl;
