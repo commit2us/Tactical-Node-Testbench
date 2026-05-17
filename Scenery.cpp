@@ -24,7 +24,7 @@ string Scenery::getDescription() {
 }
 Scenery* Scenery::createTutorialLevel() {
     RiskMatrix rm;
-    list<Base*> bps; // Cambiado a list
+    list<Base*> bps; 
     
     for(int i = 0; i < 10; i++)
         for(int j = 0; j < 10; j++)
@@ -38,7 +38,7 @@ Scenery* Scenery::createMinefieldLevel() {
     rm.setRiskAt(4, 5, 9.0f);
     rm.setRiskAt(7, 2, 9.0f);
 
-    list<Base*> bps; // Cambiado a list
+    list<Base*> bps; 
     for(int i = 0; i < 10; i++)
         for(int j = 0; j < 10; j++)
             bps.push_back(new Base(to_string(i) + "," + to_string(j), i, j, "Unknown", 1.0f));
@@ -52,7 +52,7 @@ Scenery* Scenery::createBlockadeLevel() {
         rm.setRiskAt(row, 5, 10.0f);
     }
 
-    list<Base*> bps; // Cambiado a list
+    list<Base*> bps;
     for(int i = 0; i < 10; i++)
         for(int j = 0; j < 10; j++)
             bps.push_back(new Base(to_string(i) + "," + to_string(j), i, j, "Unknown", 1.0f));
@@ -61,7 +61,7 @@ Scenery* Scenery::createBlockadeLevel() {
 }
 
 void Scenery::determineRisk() {
-    // Lógica para procesar riesgos si es necesario
+    
 }
 
 void Scenery::displayBoard() {

@@ -1,7 +1,9 @@
 #include "Network.h"
 #include "Link.h"
 #include <vector>
-
+#include <queue>
+#include <algorithm>
+#include <unordered_map>
 using namespace std;
 
 Network::Network(vector<Base*>& bases, vector<Link*>& edges) {
@@ -82,6 +84,16 @@ inline Base* Network::getOrderByBaseId(int baseId) const {
     return baseExists(baseId);
 }
 
-inline vector<Base*> Network::findRoute(Base* from, Base* to) const {
-    // Dijkstra
+vector<Base*> Network::findRoute(Base* from, Base* to) const {
+    struct  AStar {
+        int index;
+        float fscore;
+        bool operator >(const AStar Node& other) const
+        {
+            return fscore > other.fscore;
+        }
+
+        
+    };
+    
 }
