@@ -111,6 +111,7 @@ void basesDefineMenuExecuter(int option) {
                 basesDefineMenuExecuter(option);
                 return;
             }
+            break;
         }
         default:
             cout << "Menu principal fallo. Intente de nuevo.\n\n\n" << endl;
@@ -198,12 +199,17 @@ void sceneryDefineMenuExecuter(int option) {
     }
 }
 
-void sceneryRunMenuExecuter(int option) {
-    // switch (option) {
-    //     case 0:
+void sceneryRunMenuExecuter() {
+    int i;
+    cout << "Escenarios disponibles" << endl;
+    for (i = 0; i < scenarios.size(); i++) {
+        cout << i+1 << " - " << scenarios[i]->getDescription() << endl;
+        ++i;
+    }
+    cout << "Seleccione el escenario: ";
+    cin >> i;
 
-    //     case 1:
-    // }
+    // scenarios[i]->run();
 }
 
 void mainMenuExecuter(int option) {
@@ -218,7 +224,7 @@ void mainMenuExecuter(int option) {
             sceneryDefineMenuExecuter(menu("Scenery Define"));
             return;
         case 2:
-            sceneryRunMenuExecuter(menu("Scenery Run"));
+            sceneryRunMenuExecuter();
             return;
         default:
             cout << "Main menu failed. Try again.\n\n\n" << endl;
