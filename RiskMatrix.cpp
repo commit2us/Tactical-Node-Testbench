@@ -19,3 +19,7 @@ float RiskMatrix::getRiskAt(int x, int y) {
 
     return dangerZone[x][y]; 
 }
+
+void RiskMatrix::setRiskAt(int x, int y, float value) {
+    dangerZone[x][y] = value;
+}
