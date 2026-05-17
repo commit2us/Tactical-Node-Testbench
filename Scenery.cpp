@@ -101,5 +101,5 @@ void Scenery::run(Base* from, Base* to) {
     vecBases.assign(bases.begin(), bases.end());
 
     graph = new Network(vecBases, vecLinks);
-    graph->findRoute(from, to);
+    graph->findRoute(graph->getOrderByBaseId(from->getId()), graph->getOrderByBaseId(to->getId()));
 }
