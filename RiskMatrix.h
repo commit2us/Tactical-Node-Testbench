@@ -8,6 +8,8 @@ public:
     RiskMatrix();
 
     float getRiskAt(int x, int y);
+    void setRiskAt(int x, int y, float value);
+    
 
 };
 
