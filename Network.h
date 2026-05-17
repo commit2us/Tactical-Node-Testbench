@@ -33,7 +33,7 @@ public:
     inline std::string getBaseByOrder(int order) const;
 
     // Return full object from the bases' map {id : obj}
-    inline Base* getOrderByBaseId(int baseId) const;
+    inline Base* getOrderByBaseId(string id) const;
 
     // Return the optimal path to communicate two bases
     inline std::vector<Base*> findRoute(Base* from, Base* to) const;
