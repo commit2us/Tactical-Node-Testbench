@@ -1,5 +1,5 @@
 using namespace std;
-#include "base.h"
+#include "Base.h"
 #include <string>
 Base :: Base ()
 {
@@ -11,7 +11,7 @@ Base :: Base ()
     bandWidth = "Media";
 }
 
-Base :: Base (string i,int lx, int ly, string freq, float r, string bW );
+Base :: Base(string i, int lx, int ly, string freq, float r, string bW)
 {
     id = i;
     if (lx >= 0) location.x = lx; else location.x = 0;
@@ -20,8 +20,6 @@ Base :: Base (string i,int lx, int ly, string freq, float r, string bW );
     if (r > 0) risk = r; else risk = 1.0f;
     bandWidth = bW;
 }
-
-~Base();
 
   //setters 
 void Base::setId(string i) {
