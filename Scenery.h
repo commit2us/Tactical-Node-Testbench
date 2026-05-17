@@ -16,7 +16,9 @@ class Scenery{
     list<Base*> bases;
 
 public:
-    Scenery(string description, RiskMatrix riskMatrix, list<Base*> bases);
+
+    // Accept bases as a non-owning reference (Scenery won't delete bases)
+    Scenery(string description, RiskMatrix riskMatrix, const list<Base*>& bases);
 
     ~Scenery();
 

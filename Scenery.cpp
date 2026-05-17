@@ -1,14 +1,12 @@
 #include "Scenery.h"
 
-Scenery::Scenery(string description, RiskMatrix riskMatrix, list<Base*> bases) :
+Scenery::Scenery(string description, RiskMatrix riskMatrix, const list<Base*>& bases) :
 description(description), riskMatrix(riskMatrix), bases(bases) {
     determineRisk();
 }
 
 Scenery::~Scenery() {
-    for (auto &x : bases) {
-        delete x;
-    }
+    // Scenery does not own the Base pointers; do not delete them here.
 }
 
 void Scenery::determineRisk() {

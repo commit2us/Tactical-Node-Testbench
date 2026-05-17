@@ -1,7 +1,7 @@
-using namespace std;
-#include "Base.h"
 #include "Base.h"
 #include <string>
+
+using namespace std;
 
 Base :: Base ()
 {
@@ -12,12 +12,16 @@ Base :: Base ()
     risk = 1.0f;
 }
 
+Base :: ~Base() {
+    // No dynamic resources owned directly by Base
+}
+
 Base :: Base (string i,int lx, int ly, string name, float r )
 {
     id = i;
     if (lx >= 0) location.x = lx; else location.x = 0;
     if (ly >= 0) location.y = ly; else location.y = 0;
-    name = name;
+    this->name = name;
     if (r > 0) risk = r; else risk = 1.0f;
 }
 

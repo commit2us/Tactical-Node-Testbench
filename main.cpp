@@ -48,10 +48,11 @@ int menu(string section) {
     cout << "Seleccione una opcion: ";
     cin >> selectedOption;
 
-    if (selectedOption > 0 and selectedOption <= option.size() + 1) {
-        return --selectedOption; // Normalize back to 0-index
-    } else if (selectedOption > option.size()) {
-        return -1;
+    int maxOption = (int)option.size() + 1;
+    if (selectedOption >= 1 && selectedOption <= (int)option.size()) {
+        return selectedOption - 1; // Normalize back to 0-index for valid choices
+    } else if (selectedOption == maxOption) {
+        return -1; // Exit selection
     } else {
         cout << "Opcion invalida. Intente de nuevo" << endl;
         return menu(section);
@@ -132,17 +133,23 @@ RiskMatrix defineRiskMatrix() {
     while ((option = menu("Define Matrix")) != -1) {
         cout << "Riesgo de la secccion: ";
         cin >> risk;
-        cout << "Formato 'x y' sin comas ni parentesis";
+        cout << "Formato 'x y' sin comas ni parentesis" << endl;
         cout << "Coordenadas superior izquierda: ";
         cin >> topLeft.x >> topLeft.y;
         cout << "Coordenadas inferior derecha: ";
         cin >> bottomRight.x >> bottomRight.y;
 
         for (int x = topLeft.x; x <= bottomRight.x; x++) {
-            for(int y = topLeft.y; y <= bottomRight.y; y++) {
-                // Modify for propper encapsulation
-                mat.dangerZone[x][y] = risk;
-            } 
+            for (int y = topLeft.y; y <= bottomRight.y; y++) {
+                // Clamp indices to [0,9] to avoid out-of-bounds
+                int cx = x;
+                int cy = y;
+                if (cx < 0) cx = 0;
+                if (cy < 0) cy = 0;
+                if (cx > 9) cx = 9;
+                if (cy > 9) cy = 9;
+                mat.dangerZone[cx][cy] = risk;
+            }
         }
 
         cout << "Seccion completada." << endl;
@@ -172,20 +179,19 @@ void sceneryDefineMenuExecuter(int option) {
         case 1: {
             int num;
 
-            for (int i =0; i < scenarios.size(); i++) {
+            for (int i = 0; i < scenarios.size(); i++) {
                 cout << i+1 << ". " << scenarios[i]->getDescription() << endl;
             }
 
             cout << "Escriba el numero del escenario que desea borrar: ";
             cin >> num;
 
-            if (num < scenarios.size() and num >= 0) {
-                for(int i = num; i < scenarios.size(); i++) {
-                    scenarios[i] = scenarios[i+1];
-                }
+            // Convert to 0-based index
+            int idx = num - 1;
 
-                scenarios.shrink_to_fit();
-
+            if (idx >= 0 && idx < (int)scenarios.size()) {
+                delete scenarios[idx];
+                scenarios.erase(scenarios.begin() + idx);
                 return;
             } else {
                 cout << "Escenario inexistente. Intente de nuevo" << endl;
@@ -204,7 +210,6 @@ void sceneryRunMenuExecuter() {
     cout << "Escenarios disponibles" << endl;
     for (i = 0; i < scenarios.size(); i++) {
         cout << i+1 << " - " << scenarios[i]->getDescription() << endl;
-        ++i;
     }
     cout << "Seleccione el escenario: ";
     cin >> i;
