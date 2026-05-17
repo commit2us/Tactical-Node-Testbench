@@ -10,11 +10,14 @@ RiskMatrix::RiskMatrix() {
 }
 
 float RiskMatrix::getRiskAt(int x, int y) {
-    int sectorX = x / 100;
-    int sectorY = y / 100;
     
-    if(sectorX > 9) sectorX = 9;
-    if(sectorY > 9) sectorY = 9;
+    if (x > 9) x = 9;
+    if (y > 9) y = 9;
+    
+    
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
 
-    return dangerZone[sectorX][sectorY]; 
+    
+    return dangerZone[x][y]; 
 }
