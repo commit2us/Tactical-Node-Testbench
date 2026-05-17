@@ -8,7 +8,7 @@ using namespace std;
 
 // Generic structure that abstracts data for algorithm graph
 struct Edge {
-    Base* target;
+    int target;
     float cost;
 };
 

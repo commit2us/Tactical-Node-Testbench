@@ -80,8 +80,11 @@ vector<vector<Edge>> Network::buildGraph(
                 break;
         }
 
-        newGraph[idxA].push_back(Edge{ this->bases[idxB], costAB });
-        newGraph[idxB].push_back(Edge{ this->bases[idxA], costBA });
+    
+newGraph[idxA].push_back(Edge{ idxB, costAB });
+newGraph[idxB].push_back(Edge{ idxA, costBA });
+        
+        
     }
 
     this->graph = newGraph; 
@@ -99,14 +102,12 @@ string Network::getBaseByOrder(int order) const {
     return base->getId();
 }
 
-Base* Network::getOrderByBaseId(string baseId) const {
-    auto it = baseIdToOrder.find(baseId);
-    if (it == baseIdToOrder.end()) return nullptr;
-    return baseExists(it->second);
+int Network::getOrderByBaseId(string baseId) {
+    return baseIdToOrder[baseId];
 }
 
 
-vector<Base*> Network::findRoute(Base* from, Base* to) const {
+vector<Base*> Network::findRoute(Base* from, Base* to)  {
     vector<Base*> route;
 
     
@@ -120,73 +121,76 @@ vector<Base*> Network::findRoute(Base* from, Base* to) const {
     int startIdx = itStart->second;
     int goalIdx = itGoal->second;
 
+    
     if (startIdx == goalIdx) {
         route.push_back(from);
         return route;
     }
 
+    size_t totalBases = bases.size();
     
-    unordered_map<int, float> gScore; // Almacena el costo real acumulado
-    unordered_map<int, int> parent;   // Rastrea el camino de regreso
-    priority_queue<AStarNode, vector<AStarNode>, greater<AStarNode>> openSet; // Cola de prioridad
+    
+    vector<float> gScore(totalBases, INFINITY); 
+    vector<int> parent(totalBases, -1);
+    vector<bool> closedSet(totalBases, false); 
 
-    // Inicializar el punto de partida
+    priority_queue<AStarNode, vector<AStarNode>, greater<AStarNode>> openSet;
+
+    
     gScore[startIdx] = 0.0f;
     float hStart = calculateHeuristic(from->getLocation(), to->getLocation());
     openSet.push(AStarNode{ startIdx, hStart });
 
     bool found = false;
 
-    // 3. Bucle principal de exploración
+    
     while (!openSet.empty()) {
         AStarNode current = openSet.top();
         openSet.pop();
 
         int currIdx = current.index;
 
-        // Si encontramos la meta, terminamos la búsqueda inmediatamente
+        
         if (currIdx == goalIdx) {
             found = true;
             break;
         }
 
-        // Si ya encontramos un camino mejor para este nodo antes, saltamos esta evaluación
-        float currentH = calculateHeuristic(bases[currIdx]->getLocation(), to->getLocation());
-        if (gScore.find(currIdx) != gScore.end() && current.fScore > gScore[currIdx] + currentH) {
-            continue;
-        }
+        
+        if (closedSet[currIdx]) continue;
+        closedSet[currIdx] = true;
 
-        // Evaluar cada camino conectado (vecino) en el grafo
+        
         for (const Edge& edge : graph[currIdx]) {
-            auto itNeighbor = baseIdToOrder.find(edge.target->getId());
-            if (itNeighbor == baseIdToOrder.end()) continue;
+            int neighborIdx = edge.target; 
+
             
-            int neighborIdx = itNeighbor->second;
+            if (closedSet[neighborIdx]) continue; 
+
             float tentativeGScore = gScore[currIdx] + edge.cost;
 
             
-            if (gScore.find(neighborIdx) == gScore.end() || tentativeGScore < gScore[neighborIdx]) {
+            if (tentativeGScore < gScore[neighborIdx]) {
                 parent[neighborIdx] = currIdx;
                 gScore[neighborIdx] = tentativeGScore;
                 
-                float hNeighbor = calculateHeuristic(edge.target->getLocation(), to->getLocation());
-                float fNeighbor = tentativeGScore + hNeighbor;
                 
-                openSet.push(AStarNode{ neighborIdx, fNeighbor });
+                float hNeighbor = calculateHeuristic(bases[neighborIdx]->getLocation(), to->getLocation());
+                openSet.push(AStarNode{ neighborIdx, tentativeGScore + hNeighbor });
             }
         }
     }
 
-    // 4. Reconstrucción del camino desde el final hacia el principio
+    
     if (found) {
         int curr = goalIdx;
         while (curr != startIdx) {
-            route.push_back(bases[curr]);
+            route.push_back(bases[curr]); 
             curr = parent[curr];
         }
         route.push_back(bases[startIdx]);
         
-        // Invertimos la ruta para que empiece en 'from' y termine en 'to'
+        
         reverse(route.begin(), route.end());
     }
 

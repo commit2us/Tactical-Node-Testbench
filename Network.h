@@ -6,19 +6,17 @@
 
 #include <unordered_map>
 #include <vector>
+#include <string>
 
 class Network{
 private:
-    // Lightweigh translation from Base objects to O(1) access structures
+
     std::vector<std::vector<Edge>> graph;
     std::vector<Base*> bases;
     std::vector<Link*> links;
     std::unordered_map<std::string, int> baseIdToOrder;
 
-    
-
 public:
-    // Translate Base objects to internal structures
     Network(std::vector<Base*>& bases, std::vector<Link*>& edges);
 
     std::vector<std::vector<Edge>> buildGraph(
@@ -27,16 +25,14 @@ public:
         Mode mode
     );
     
-    inline Base* baseExists(int baseId) const;
+   
+    Base* baseExists(int baseId) const;
 
-    // Return base description from the bases' map {id : obj}
-    inline std::string getBaseByOrder(int order) const;
+    std::string getBaseByOrder(int order) const;
 
-    // Return full object from the bases' map {id : obj}
-    inline Base* getOrderByBaseId(string id) const;
+    int getOrderByBaseId(std::string id);
 
-    // Return the optimal path to communicate two bases
-    std::vector<Base*> findRoute(Base* from, Base* to) const;
+    std::vector<Base*> findRoute(Base* from, Base* to);
 };
 
 #endif
